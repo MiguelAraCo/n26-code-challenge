@@ -37,11 +37,18 @@ public class StatisticsService {
 	}
 
 	private Statistics _get() {
-		Instant now = Instant.now();
-		if ( outsideCurrentSamplingPeriod( now ) ) revalidateSamples( now );
+		if ( this.samples.size() == 0 ) return new Statistics();
 
-		// TODO
-		throw new RuntimeException( "Not implemented" );
+		Instant now = Instant.now();
+		checkSamples( now );
+
+		return getSamplesStatistics();
+	}
+
+	private Statistics getSamplesStatistics() {
+		Statistics aggregate = new Statistics();
+		this.samples.forEach( ( key, sample ) -> aggregate.add( sample ) );
+		return aggregate;
 	}
 
 	public RegisterResult register( Transaction transaction ) {
@@ -95,6 +102,7 @@ public class StatisticsService {
 	}
 
 	private Optional<Instant> getOldestSampleKey() {
+		//noinspection LoopStatementThatDoesntLoop
 		for ( Instant sampleKey : this.samples.keySet() ) {
 			return Optional.of( sampleKey );
 		}

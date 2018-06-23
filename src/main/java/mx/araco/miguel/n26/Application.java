@@ -6,8 +6,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 import java.time.Duration;
-import java.time.Instant;
-import java.util.TimeZone;
 
 /**
  * @author MiguelAraCo
@@ -15,8 +13,6 @@ import java.util.TimeZone;
 @SpringBootApplication
 public class Application {
 	public static void main( String[] args ) {
-		TimeZone.setDefault( TimeZone.getTimeZone( "UTC" ) );
-		System.out.println( Instant.now().toEpochMilli() );
 		SpringApplication.run( Application.class, args );
 	}
 
