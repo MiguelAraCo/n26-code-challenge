@@ -1,0 +1,12 @@
+
+  NNNNNNNNNNN
+  NNN     NNN     NNNNNNNN     NNNNNNNN
+  NNNNN   NNN    NNNN  NNNN   NNN
+  NNNNNN  NNN          NNNN   NNN NNNN
+  NNN NNN NNN       NNNNNN    NNNN  NNNN
+  NNN  NNNNNN     NNNNN       NNN    NNN
+  NNN    NNNN    NNN          NNNN  NNNN
+  NNN     NNN    NNNNNNNNNN    NNNNNNNN
+  NNNNNNNNNNN
+                 ${AnsiColor.GREEN}:: Miguel Aragón's code challenge
+                    ${application.formatted-version}
