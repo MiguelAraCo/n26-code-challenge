@@ -8,5 +8,5 @@
   NNN    NNNN    NNN          NNNN  NNNN
   NNN     NNN    NNNNNNNNNN    NNNNNNNN
   NNNNNNNNNNN
-                 ${AnsiColor.GREEN}:: Miguel Aragón's code challenge
+                 ${AnsiColor.GREEN}:: Miguel Aragón's code challenge${Ansi.DEFAULT}
                     ${application.formatted-version}
