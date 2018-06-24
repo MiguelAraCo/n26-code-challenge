@@ -1,7 +1,7 @@
 package mx.araco.miguel.n26.web;
 
-import mx.araco.miguel.n26.services.StatisticsService;
 import mx.araco.miguel.n26.models.Transaction;
+import mx.araco.miguel.n26.services.StatisticsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +19,12 @@ public class TransactionsController {
 
 	@RequestMapping( value = "transactions", method = RequestMethod.POST )
 	public ResponseEntity<Void> addTransaction( @RequestBody Transaction transaction ) {
-		StatisticsService.RegisterResult result = this.statisticsService.register( transaction );
+		StatisticsService.RegisterResult result;
+		try {
+			result = this.statisticsService.register( transaction );
+		} catch ( IllegalArgumentException e ) {
+			return new ResponseEntity<>( HttpStatus.BAD_REQUEST );
+		}
 
 		switch ( result ) {
 			case REGISTERED:
