@@ -89,4 +89,60 @@ public class TransactionsControllerTest {
 		MockHttpServletResponse response = mvc.perform( requestBuilder ).andReturn().getResponse();
 		assertEquals( "The expected status code wasn't returned", 400, response.getStatus() );
 	}
+
+	@Test
+	public void returns400OnMissingProperties() throws Exception {
+		RequestBuilder requestBuilder = MockMvcRequestBuilders
+			.post( "/transactions" )
+			.contentType( MediaType.APPLICATION_JSON )
+			.content( "" +
+				"{" +
+				"   \"amount\": 12.65\n" +
+				"}"
+			);
+
+		MockHttpServletResponse response = mvc.perform( requestBuilder ).andReturn().getResponse();
+		assertEquals( "The expected status code wasn't returned", 400, response.getStatus() );
+
+		requestBuilder = MockMvcRequestBuilders
+			.post( "/transactions" )
+			.contentType( MediaType.APPLICATION_JSON )
+			.content( "" +
+				"{" +
+				"   \"timestamp\": 1529822905186\n" +
+				"}"
+			);
+
+		response = mvc.perform( requestBuilder ).andReturn().getResponse();
+		assertEquals( "The expected status code wasn't returned", 400, response.getStatus() );
+	}
+
+	@Test
+	public void returns400OnInvalidProperties() throws Exception {
+		RequestBuilder requestBuilder = MockMvcRequestBuilders
+			.post( "/transactions" )
+			.contentType( MediaType.APPLICATION_JSON )
+			.content( "" +
+				"{" +
+				"   \"amount\": \"super-invalid-amount\",\n" +
+				"   \"timestamp\": 1529822905186\n" +
+				"}"
+			);
+
+		MockHttpServletResponse response = mvc.perform( requestBuilder ).andReturn().getResponse();
+		assertEquals( "The expected status code wasn't returned", 400, response.getStatus() );
+
+		requestBuilder = MockMvcRequestBuilders
+			.post( "/transactions" )
+			.contentType( MediaType.APPLICATION_JSON )
+			.content( "" +
+				"{" +
+				"   \"amount\": 12.65,\n" +
+				"   \"timestamp\": \"super-invalid-timestamp\"\n" +
+				"}"
+			);
+
+		response = mvc.perform( requestBuilder ).andReturn().getResponse();
+		assertEquals( "The expected status code wasn't returned", 400, response.getStatus() );
+	}
 }

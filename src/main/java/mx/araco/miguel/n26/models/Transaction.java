@@ -3,6 +3,7 @@ package mx.araco.miguel.n26.models;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.Instant;
 
@@ -12,11 +13,16 @@ import java.time.Instant;
  * @author MiguelAraCo
  */
 public class Transaction {
+	@NotNull
 	private final BigDecimal amount;
+	@NotNull
 	private final Instant timestamp;
 
 	@JsonCreator
-	public Transaction( @JsonProperty( "amount" ) BigDecimal amount, @JsonProperty( "timestamp" ) Instant timestamp ) {
+	public Transaction(
+		@JsonProperty( "amount" ) BigDecimal amount,
+		@JsonProperty( "timestamp" ) Instant timestamp
+	) {
 		this.amount = amount;
 		this.timestamp = timestamp;
 	}

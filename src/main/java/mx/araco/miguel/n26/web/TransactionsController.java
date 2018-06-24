@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.validation.Valid;
+
 /**
  * @author MiguelAraCo
  */
@@ -18,7 +20,7 @@ public class TransactionsController {
 	private StatisticsService statisticsService;
 
 	@RequestMapping( value = "transactions", method = RequestMethod.POST )
-	public ResponseEntity<Void> addTransaction( @RequestBody Transaction transaction ) {
+	public ResponseEntity<Void> addTransaction( @Valid @RequestBody Transaction transaction ) {
 		StatisticsService.RegisterResult result;
 		try {
 			result = this.statisticsService.register( transaction );

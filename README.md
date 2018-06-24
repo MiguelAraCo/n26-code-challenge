@@ -62,3 +62,11 @@ Additionally, the following application-specific properties can be defined:
 | -------- | ----------- |
 | `mx.araco.miguel.n26.sampling-period` | How long it takes for the SamplingStatisticsService to sample new statistics (ISO 8601 duration) |
 | `mx.araco.miguel.n26.sample-period` | Period of time that the SamplingStatisticsService calculates transaction statistics of (ISO 8601 duration) | |
+
+### Testing
+
+To run the tests you need to have installed [maven 3](https://maven.apache.org/) and run:
+
+```
+mvn test
+```
