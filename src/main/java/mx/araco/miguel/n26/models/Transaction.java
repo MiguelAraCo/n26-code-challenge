@@ -1,4 +1,4 @@
-package mx.araco.miguel.n26;
+package mx.araco.miguel.n26.models;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -7,6 +7,8 @@ import java.math.BigDecimal;
 import java.time.Instant;
 
 /**
+ * POJO representing a bank transaction
+ *
  * @author MiguelAraCo
  */
 public class Transaction {

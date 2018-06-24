@@ -1,5 +1,7 @@
-package mx.araco.miguel.n26;
+package mx.araco.miguel.n26.web;
 
+import mx.araco.miguel.n26.services.StatisticsService;
+import mx.araco.miguel.n26.models.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -1,4 +1,4 @@
-package mx.araco.miguel.n26;
+package mx.araco.miguel.n26.models;
 
 import java.math.BigDecimal;
 

@@ -1,5 +1,7 @@
-package mx.araco.miguel.n26;
+package mx.araco.miguel.n26.services;
 
+import mx.araco.miguel.n26.models.Statistics;
+import mx.araco.miguel.n26.models.Transaction;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
@@ -7,22 +9,37 @@ import java.time.Instant;
 import java.util.*;
 
 /**
+ * Implementation of {@link StatisticsService}. The statistics returned (and maintained by it)
+ * are based on a configurable "sampling period".
+ * <p>
+ * When calling {@link SamplingStatisticsService#register(Transaction)}, the service will only
+ * register the transaction if it happened somewhere in between the moment the method was called
+ * minus the sampling period, and the moment the method was called (e.g. between 60s in the past
+ * and now).
+ * <p>
+ * The statistics returned by {@link SamplingStatisticsService#get()} are only about the
+ * transactions registered during that time.
+ * <p>
+ * The service uses a sampling strategy to keep execution time and memory constant (O(1)).
+ * <p>
+ * The drawback of this approach is that, depending on the time the statistics are requested,
+ * the service may return statistics that include more data than the one received strictly in the
+ * configured sampling period.
+ * <p>
+ * The margin of error will be determined by the configured sample period (the fragment of time
+ * used by this service to store a statistics sample), and the frequency of transactions.
+ *
  * @author MiguelAraCo
  */
 @Service
-public class StatisticsService {
+public class SamplingStatisticsService implements StatisticsService {
 	private final Duration samplePeriod;
 	private final Duration samplingPeriod;
 	private final int sampleSize;
 
 	private Map<Instant, Statistics> samples;
 
-	public enum RegisterResult {
-		REGISTERED,
-		DISCARDED,
-	}
-
-	public StatisticsService( Application.StatisticsServiceConfiguration configuration ) {
+	public SamplingStatisticsService( SamplingStatisticsServiceConfiguration configuration ) {
 		this.samplePeriod = configuration.getSamplePeriod();
 		this.samplingPeriod = configuration.getSamplingPeriod();
 
@@ -79,7 +96,7 @@ public class StatisticsService {
 			initializeSamples( now );
 		} else if ( outsideCurrentSamplingPeriod( now ) ) {
 			if ( allSamplesAreInvalid( now ) ) initializeSamples( now );
-			else revalidateSamples( now );
+			else renewSamples( now );
 		}
 	}
 
@@ -136,7 +153,7 @@ public class StatisticsService {
 		return Optional.ofNullable( newestSampleKey );
 	}
 
-	private void revalidateSamples( Instant now ) {
+	private void renewSamples( Instant now ) {
 		int removed = 0;
 
 		Iterator<Instant> sampleStarts = this.samples.keySet().iterator();
