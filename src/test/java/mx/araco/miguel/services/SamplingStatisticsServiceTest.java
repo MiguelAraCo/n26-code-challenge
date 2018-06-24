@@ -47,14 +47,14 @@ public class SamplingStatisticsServiceTest {
 	public void returnsREGISTEREDForTransactionsInsideSamplingPeriod() {
 		Transaction transaction = new Transaction( new BigDecimal( "10.25" ), Instant.now() );
 
-		assertEquals( StatisticsService.RegisterResult.REGISTERED, this.statisticsService.register( transaction ) );
+		assertEquals( "The service didn't return the expected result", StatisticsService.RegisterResult.REGISTERED, this.statisticsService.register( transaction ) );
 	}
 
 	@Test
 	public void returnsDISCARDEDForTransactionsOutsideSamplingPeriod() {
 		Transaction transaction = new Transaction( new BigDecimal( "10.25" ), Instant.now().minus( Duration.parse( "PT2S" ) ) );
 
-		assertEquals( StatisticsService.RegisterResult.DISCARDED, this.statisticsService.register( transaction ) );
+		assertEquals( "The service didn't return the expected result", StatisticsService.RegisterResult.DISCARDED, this.statisticsService.register( transaction ) );
 	}
 
 	@Test( expected = IllegalArgumentException.class )
@@ -82,11 +82,11 @@ public class SamplingStatisticsServiceTest {
 
 		Statistics statistics = this.statisticsService.get();
 
-		assertEquals( 0, statistics.getMax().compareTo( new BigDecimal( "10.25" ) ) );
-		assertEquals( 0, statistics.getMin().compareTo( new BigDecimal( "2.4" ) ) );
-		assertEquals( 0, statistics.getSum().compareTo( new BigDecimal( "49.65" ) ) );
-		assertEquals( 8, (long) statistics.getCount() );
-		assertEquals( 0, statistics.getAvg().compareTo( new BigDecimal( "6.21" ) ) ); // 6.20625 rounded up
+		assertEquals( "The returned statistics didn't have the expected max", 0, statistics.getMax().compareTo( new BigDecimal( "10.25" ) ) );
+		assertEquals( "The returned statistics didn't have the expected min", 0, statistics.getMin().compareTo( new BigDecimal( "2.4" ) ) );
+		assertEquals( "The returned statistics didn't have the expected sum", 0, statistics.getSum().compareTo( new BigDecimal( "49.65" ) ) );
+		assertEquals( "The returned statistics didn't have the expected count", 8, (long) statistics.getCount() );
+		assertEquals( "The returned statistics didn't have the expected avg", 0, statistics.getAvg().compareTo( new BigDecimal( "6.21" ) ) ); // 6.20625 rounded up
 	}
 
 	@Test
@@ -108,11 +108,11 @@ public class SamplingStatisticsServiceTest {
 
 		Statistics statistics = this.statisticsService.get();
 
-		assertEquals( 0, statistics.getMax().compareTo( new BigDecimal( "6.43" ) ) );
-		assertEquals( 0, statistics.getMin().compareTo( new BigDecimal( "4" ) ) );
-		assertEquals( 0, statistics.getSum().compareTo( new BigDecimal( "20.16" ) ) );
-		assertEquals( 4, (long) statistics.getCount() );
-		assertEquals( 0, statistics.getAvg().compareTo( new BigDecimal( "5.04" ) ) );
+		assertEquals( "The returned statistics didn't have the expected max", 0, statistics.getMax().compareTo( new BigDecimal( "6.43" ) ) );
+		assertEquals( "The returned statistics didn't have the expected min", 0, statistics.getMin().compareTo( new BigDecimal( "4" ) ) );
+		assertEquals( "The returned statistics didn't have the expected sum", 0, statistics.getSum().compareTo( new BigDecimal( "20.16" ) ) );
+		assertEquals( "The returned statistics didn't have the expected count", 4, (long) statistics.getCount() );
+		assertEquals( "The returned statistics didn't have the expected avg", 0, statistics.getAvg().compareTo( new BigDecimal( "5.04" ) ) );
 	}
 
 	@Test
@@ -139,10 +139,10 @@ public class SamplingStatisticsServiceTest {
 
 		Statistics statistics = this.statisticsService.get();
 
-		assertEquals( 0, statistics.getMax().compareTo( new BigDecimal( "6.43" ) ) );
-		assertEquals( 0, statistics.getMin().compareTo( new BigDecimal( "4" ) ) );
-		assertEquals( 0, statistics.getSum().compareTo( new BigDecimal( "20.16" ) ) );
-		assertEquals( 4, (long) statistics.getCount() );
-		assertEquals( 0, statistics.getAvg().compareTo( new BigDecimal( "5.04" ) ) );
+		assertEquals( "The returned statistics didn't have the expected max", 0, statistics.getMax().compareTo( new BigDecimal( "6.43" ) ) );
+		assertEquals( "The returned statistics didn't have the expected min", 0, statistics.getMin().compareTo( new BigDecimal( "4" ) ) );
+		assertEquals( "The returned statistics didn't have the expected sum", 0, statistics.getSum().compareTo( new BigDecimal( "20.16" ) ) );
+		assertEquals( "The returned statistics didn't have the expected count", 4, (long) statistics.getCount() );
+		assertEquals( "The returned statistics didn't have the expected avg", 0, statistics.getAvg().compareTo( new BigDecimal( "5.04" ) ) );
 	}
 }

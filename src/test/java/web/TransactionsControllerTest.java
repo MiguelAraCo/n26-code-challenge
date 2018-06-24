@@ -51,7 +51,7 @@ public class TransactionsControllerTest {
 			);
 
 		MockHttpServletResponse response = mvc.perform( requestBuilder ).andReturn().getResponse();
-		assertEquals( 201, response.getStatus() );
+		assertEquals( "The expected status code wasn't returned", 201, response.getStatus() );
 	}
 
 	@Test
@@ -69,7 +69,7 @@ public class TransactionsControllerTest {
 			);
 
 		MockHttpServletResponse response = mvc.perform( requestBuilder ).andReturn().getResponse();
-		assertEquals( 204, response.getStatus() );
+		assertEquals( "The expected status code wasn't returned", 204, response.getStatus() );
 	}
 
 	@Test
@@ -87,6 +87,6 @@ public class TransactionsControllerTest {
 			);
 
 		MockHttpServletResponse response = mvc.perform( requestBuilder ).andReturn().getResponse();
-		assertEquals( 400, response.getStatus() );
+		assertEquals( "The expected status code wasn't returned", 400, response.getStatus() );
 	}
 }
