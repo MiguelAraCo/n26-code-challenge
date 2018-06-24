@@ -44,7 +44,13 @@ public class SamplingStatisticsService implements StatisticsService {
 		this.samplingPeriod = configuration.getSamplingPeriod();
 
 		this.sampleSize = ( (int) ( this.samplingPeriod.toNanos() / this.samplePeriod.toNanos() ) ) + 1;
-		samples = Collections.emptyMap();
+		this.samples = Collections.emptyMap();
+	}
+
+	public void reset() {
+		synchronized ( this ) {
+			this.samples = Collections.emptyMap();
+		}
 	}
 
 	public Statistics get() {
@@ -77,6 +83,8 @@ public class SamplingStatisticsService implements StatisticsService {
 	private RegisterResult _register( Transaction transaction ) {
 		Instant now = Instant.now();
 
+		if ( transactionHappensInTheFuture( transaction, now ) ) throw new IllegalArgumentException( "Transactions can't have timestamps of the future" );
+
 		checkSamples( now );
 
 		if ( transactionIsOutsideSamplingPeriod( transaction, now ) ) return RegisterResult.DISCARDED;
@@ -85,6 +93,10 @@ public class SamplingStatisticsService implements StatisticsService {
 		updateStatistics( sampleKey, transaction );
 
 		return RegisterResult.REGISTERED;
+	}
+
+	private boolean transactionHappensInTheFuture( Transaction transaction, Instant now ) {
+		return transaction.getTimestamp().isAfter( now );
 	}
 
 	private boolean transactionIsOutsideSamplingPeriod( Transaction transaction, Instant now ) {

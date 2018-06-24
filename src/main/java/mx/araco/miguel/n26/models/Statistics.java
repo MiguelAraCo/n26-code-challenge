@@ -1,6 +1,7 @@
 package mx.araco.miguel.n26.models;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 /**
  * @author MiguelAraCo
@@ -17,7 +18,7 @@ public class Statistics {
 		if ( this.max == null || occurrence.compareTo( this.max ) > 0 ) this.max = occurrence;
 		this.count++;
 		this.sum = this.sum.add( occurrence );
-		this.avg = this.sum.divide( new BigDecimal( this.count ) );
+		this.avg = this.sum.divide( new BigDecimal( this.count ), 2, RoundingMode.HALF_EVEN );
 	}
 
 	public void add( Statistics sample ) {
@@ -31,7 +32,7 @@ public class Statistics {
 
 		this.setSum( this.getSum().add( sample.getSum() ) );
 		this.setCount( this.getCount() + sample.getCount() );
-		if ( this.getCount() != 0 ) this.setAvg( this.getSum().divide( new BigDecimal( this.getCount() ) ) );
+		if ( this.getCount() != 0 ) this.setAvg( this.getSum().divide( new BigDecimal( this.getCount() ), 2, RoundingMode.HALF_EVEN ) );
 
 	}
 
