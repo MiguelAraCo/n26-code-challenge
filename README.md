@@ -33,7 +33,7 @@ This application can be run either by using a JRE (8+) directly, or through [Doc
 
 ```
 java -jar target/n26-challenge.jar \
-	[parameters]
+	[-C[property]]
 ```
 
 **Option 2:** Docker
@@ -42,7 +42,23 @@ java -jar target/n26-challenge.jar \
 docker run --name miguel-aragon-n26-challenge -p 8080:8080 \
 	[--env JAVA_OPTS=""] \
 	miguel-aragon-n26-challenge \
-	[parameters]
+	[-C[property]]
 ```
 
 ### Parameters
+
+Properties can be specified by passing a `-C` parameter. E.g.:
+
+```
+-Cspring.profiles.active=dev
+```
+
+The application uses [Spring Boot](https://spring.io) so any of their properties can be specified 
+(see [Common application properties](https://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html)).
+
+Additionally, the following application-specific properties can be defined:
+
+| Property | Description |
+| -------- | ----------- |
+| `mx.araco.miguel.n26.sampling-period` | How long it takes for the SamplingStatisticsService to sample new statistics (ISO 8601 duration) |
+| `mx.araco.miguel.n26.sample-period` | Period of time that the SamplingStatisticsService calculates transaction statistics of (ISO 8601 duration) | |
