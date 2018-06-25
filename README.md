@@ -60,8 +60,8 @@ Additionally, the following application-specific properties can be defined:
 
 | Property | Description |
 | -------- | ----------- |
-| `mx.araco.miguel.n26.sampling-period` | How long it takes for the SamplingStatisticsService to sample new statistics (ISO 8601 duration) |
-| `mx.araco.miguel.n26.sample-period` | Period of time that the SamplingStatisticsService calculates transaction statistics of (ISO 8601 duration) | |
+| `mx.araco.miguel.n26.sampling-period` | Period of time that the SamplingStatisticsService calculates transaction statistics of (ISO 8601 duration) |
+| `mx.araco.miguel.n26.sample-period` | How long it takes for the SamplingStatisticsService to sample new statistics (ISO 8601 duration) | |
 
 ### Testing
 
